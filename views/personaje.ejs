@@ -5,11 +5,16 @@
     
   </head>
   <body>
-   
     <form action="/starWars/porNombre" method="POST">
         <input type="text" name="nombre">
         <input type="submit" value="Buscar">
     </form>
+           
+    
+          <p>-Nombre: <%= personaje.name %> </p>
+          <p>-Altura: <%= personaje.height %></p> 
+             
+        <img src="/images/<%= personaje.name %>.jpg" width="400" height="500">
 
   <a href="/starWars/porAzar"><p>Dejemoslo al azar</p></a>
   

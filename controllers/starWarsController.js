@@ -1,8 +1,10 @@
 const fetch = require('node-fetch');
 
+
+let personajesGlobal ;
+
 const starWarsController = {
-    home: async (req, res) => {
-      
+    home:async (req, res) => {           
         let personajes = await fetch('https://swapi.dev/api/people').then(response=>response.json());
         let personajes2 = await fetch('https://swapi.dev/api/people/?page=2').then(response=>response.json());
         let personajes3 = await fetch('https://swapi.dev/api/people/?page=3').then(response=>response.json());
@@ -14,15 +16,35 @@ const starWarsController = {
         personajes =personajes.concat(personajes2);
         personajes = personajes.concat(personajes3);
         personajes = personajes.concat(personajes4);
-        //console.log(personajes.length);
-        //return res.send(personajes);
+        personajesGlobal = personajes;
+        console.log(personajes.lenght);
         return res.render('index',{personajes})
+		
+	},
+    porAzar:(req, res) => {  
+                
+        var num = Math.floor(Math.random()*41);
+        
+        let personaje=personajesGlobal[num-1];
 
-		/*fetch('https://restcountries.eu/rest/v2/all')
-        .then (response=>response.json())
-        .then(countries => {
-            res.render('paises', {countries});
-        })*/
+        //return res.send(personaje);
+        return res.render('personaje',{personaje});
+		
+	},
+    porNombre:(req, res) => {  
+                
+        let nombre=req.body;
+        nombre= nombre.nombre;
+
+        let personaje = personajesGlobal.find(uno => uno.name == nombre);
+        
+        if(personaje==undefined){
+            
+            return res.send("No se encontro personaje");
+        }
+        //return res.send(elBuscado);
+        return res.render('personaje',{personaje});
+		
 	}
 
 
